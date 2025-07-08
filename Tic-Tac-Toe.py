@@ -1,4 +1,5 @@
 import random
+
 def print_board(b):
     print("\nBoard:")
     for r in b:
@@ -28,17 +29,10 @@ def get_user_move(b):
             print("Invalid input")
 
 def get_computer_move(b):
-    for p in ['O','X']:
-        for r in range(3):
-            for c in range(3):
-                if b[r][c] == " ":
-                    b[r][c] = p
-                    if check_winner(b, p):
-                        if p == 'O': return r,c
-                        b[r][c] = "O"
-                        return r,c
-                    b[r][c] = " "
-    return random.choice([(r,c) for r in range(3) for c in range(3) if b[r][c] == " "])
+    empty = [(r,c) for r in range(3) for c in range(3) if b[r][c] == " "]
+    r,c = random.choice(empty)
+    b[r][c] = 'O'
+    return r,c
 
 def main():
     board = [[" "]*3 for _ in range(3)]
@@ -56,8 +50,7 @@ def main():
             print("Draw!")
             break
         print("Computer move:")
-        r,c = get_computer_move(board)
-        board[r][c] = "O"
+        get_computer_move(board)
         if check_winner(board, "O"):
             print_board(board)
             print("Computer wins!")
